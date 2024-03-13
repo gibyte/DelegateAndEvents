@@ -9,7 +9,6 @@ namespace DelegateAndEvents
     public static class Extensions
     {
         public static T GetMax<T>(this IEnumerable<T> collection, Func<T, float> convertToNumber) where T : class
-        
         {
             T maxElement = null;
             float maxValue = float.MinValue;
@@ -23,6 +22,7 @@ namespace DelegateAndEvents
                     maxElement = item;
                 }
             }
+
             return maxElement;
         }
     }

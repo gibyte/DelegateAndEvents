@@ -9,11 +9,15 @@ namespace DelegateAndEvents
     public class FileExplorer
     {
         public event EventHandler<FileArgs> FileFound;
+        private bool shouldContinueExploring = true;
 
-        public void ExploreDirectory(string path)
+        public void ExploreDirectory(string path, CancellationToken cancellationToken)
         {
+            shouldContinueExploring = true;
             foreach (var file in Directory.GetFiles(path))
             {
+                if (!shouldContinueExploring)
+                    break;
                 OnFileFound(new FileArgs(file));
             }
         }
@@ -21,6 +25,11 @@ namespace DelegateAndEvents
         protected virtual void OnFileFound(FileArgs e)
         {
             FileFound?.Invoke(this, e);
+        }
+
+        public void CancelExploration()
+        {
+            shouldContinueExploring = false;
         }
     }
 }
