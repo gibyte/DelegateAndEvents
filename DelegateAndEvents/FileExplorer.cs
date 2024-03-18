@@ -8,10 +8,11 @@ namespace DelegateAndEvents
 {
     public class FileExplorer
     {
-        public event EventHandler<FileArgs> FileFound;
+        public event EventHandler<FileArgs>? FileFound;
         private bool shouldContinueExploring = true;
+        private CancellationTokenSource? cancellationTokenSource;
 
-        public void ExploreDirectory(string path, CancellationToken cancellationToken)
+        public void ExploreDirectory(string path)
         {
             shouldContinueExploring = true;
             foreach (var file in Directory.GetFiles(path))
@@ -30,6 +31,11 @@ namespace DelegateAndEvents
         public void CancelExploration()
         {
             shouldContinueExploring = false;
+        }
+
+        internal void CancelSearch()
+        {
+            cancellationTokenSource?.Cancel();
         }
     }
 }

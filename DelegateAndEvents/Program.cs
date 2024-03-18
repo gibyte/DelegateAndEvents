@@ -8,9 +8,10 @@ var explorer = new FileExplorer();
 explorer.FileFound += (sender, e) =>
 {
     Console.WriteLine($"Найден файл: {e.FileName}");
+    if (e.StopSearch) explorer.CancelSearch();
 };
 
 var cancellationTokenSource = new CancellationTokenSource();
 CancellationToken cancellationToken = cancellationTokenSource.Token;
 
-explorer.ExploreDirectory("C:\\", cancellationToken);
+explorer.ExploreDirectory("C:\\");
